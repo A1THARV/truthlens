@@ -1,20 +1,11 @@
 from typing import Any, Dict
 
 from google.adk.agents import Agent
-from google.adk.tools import python_tool
 
 from agents.fact_finder.tools.firecrawl_fact_finder import run_fact_finder
 from agents.fact_finder.schemas.fact_finder_schema import FactFinderResult
 
 
-@python_tool(
-    name="truthlens_fact_finder_search",
-    description=(
-        "Given a user's statement about a real-world event, search the web and news "
-        "via Firecrawl and return a structured list of sources. "
-        "Use this to gather evidential URLs and metadata for the TruthLens pipeline."
-    ),
-)
 def fact_finder_tool(statement: str) -> Dict[str, Any]:
     """
     Tool interface for the Fact-Finder.
@@ -64,7 +55,7 @@ YOUR ROLE (Fact-Finder):
    - The user might provide a vague description; rewrite it as a concrete, objective statement.
    - Avoid adding new facts; only disambiguate and clarify.
 
-2. Call the tool 'truthlens_fact_finder_search' with the final statement.
+2. Call the tool 'fact_finder_tool' with the final statement.
    - This tool uses Firecrawl's search API to query 'web' and 'news'.
    - It returns a list of sources with the following fields:
      - title: headline of the article (string, optional)
