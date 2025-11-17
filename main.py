@@ -2,7 +2,9 @@ import asyncio
 
 from dotenv import load_dotenv
 
-from agents.fact_finder.agent import root_agent
+from google.adk.runner import Runner
+
+from app import app
 
 
 async def main():
@@ -12,11 +14,16 @@ async def main():
     print("---------------------------")
     user_statement = input("Enter a statement or query about an event: ").strip()
 
-    # run_async returns an async generator -> iterate over it
+    runner = Runner(app=app)
+
     print("\n--- Agent Response ---")
-    async for step in root_agent.run_async(user_statement):
-        # Each step is typically a dict or object representing a turn or output.
-        # For now, just print it; we can refine once we see the structure.
+
+    # Runner.run_async is the recommended entrypoint; it handles context and agent invocation.
+    async for step in runner.run_async(
+        input=user_statement,
+        agent_name="truthlens_fact_finder",  # matches root_agent.name
+    ):
+        # For now, just print each step; we can refine as we see the shape.
         print(step)
 
 
