@@ -1,3 +1,4 @@
+agent-development-kit
 requests
 pydantic
 python-dotenv
