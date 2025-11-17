@@ -12,12 +12,12 @@ async def main():
     print("---------------------------")
     user_statement = input("Enter a statement or query about an event: ").strip()
 
-    # ADK v0.2+ style: use run_async
-    # The API generally expects the user input as a string or dict, depending on config.
-    result = await root_agent.run_async(user_statement)
-
+    # run_async returns an async generator -> iterate over it
     print("\n--- Agent Response ---")
-    print(result)
+    async for step in root_agent.run_async(user_statement):
+        # Each step is typically a dict or object representing a turn or output.
+        # For now, just print it; we can refine once we see the structure.
+        print(step)
 
 
 if __name__ == "__main__":
