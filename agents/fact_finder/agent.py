@@ -17,6 +17,7 @@ def fact_finder_tool(statement: str) -> Dict[str, Any]:
     Returns:
         Dict representation of FactFinderResult:
         {
+          'summary': '...',        # optional
           'statement': '...',
           'sources': [
             {
@@ -69,12 +70,27 @@ YOUR ROLE (Fact-Finder):
    - Only use what the tool returns.
    - If fewer sources are available than ideal, still return what you have.
 
-4. Output behavior:
-   - Your final answer to the caller should primarily be the tool result (the list of sources)
-     with minimal extra commentary.
-   - Do NOT perform deep analysis (that is the job of later agents).
-   - You may include a one-sentence natural language summary of how many sources
-     were found and the general coverage, but keep it very short.
+4. OUTPUT FORMAT (IMPORTANT):
+   - Your final answer MUST be the exact JSON object returned by the tool, with no extra keys,
+     except optionally a "summary" field.
+   - That JSON must match this structure:
+     {
+       "summary": "I found N sources ...",   # optional
+       "statement": "...",
+       "sources": [
+         {
+           "title": "...",
+           "url": "...",
+           "description": "...",
+           "source_name": "...",
+           "publish_date": "...",
+           "source_type": "web" or "news"
+         },
+         ...
+       ]
+     }
+   - Do not wrap this JSON in markdown.
+   - Do not add commentary before or after the JSON.
 
 5. Memory:
    - The Fact-Finder tool persists results in a local memory store keyed by the statement.
