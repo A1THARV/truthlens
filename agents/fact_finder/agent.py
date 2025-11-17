@@ -1,26 +1,7 @@
 from typing import Any, Dict
 
-# NOTE:
-# The exact import paths for ADK may differ depending on how you install / structure it.
-# Adjust the imports below to match the actual ADK API once integrated.
-try:
-    from google.adk.agents import Agent
-    from google.adk.tools import python_tool
-except ImportError:
-    # Fallback placeholders to allow local type-check/run without ADK installed.
-    class Agent:  # type: ignore
-        def __init__(self, *args, **kwargs):
-            pass
-
-        async def run(self, *args, **kwargs):
-            raise NotImplementedError(
-                "Agent.run is not implemented in this stub. Integrate with ADK."
-            )
-
-    def python_tool(*args, **kwargs):  # type: ignore
-        def wrapper(fn):
-            return fn
-        return wrapper
+from google_adk.agents import Agent
+from google_adk.tools import python_tool
 
 from agents.fact_finder.tools.firecrawl_fact_finder import run_fact_finder
 from agents.fact_finder.schemas.fact_finder_schema import FactFinderResult
@@ -113,7 +94,7 @@ YOUR ROLE (Fact-Finder):
 
 root_agent = Agent(
     name="truthlens_fact_finder",
-    model="gemini-2.5-flash",  # Adjust based on ADK / Vertex AI configuration.
+    model="gemini-2.5-flash",  # Adjust based on your ADK / Vertex AI config
     instruction=FACT_FINDER_SYSTEM_PROMPT,
     description="Fact-Finder agent for TruthLens that gathers relevant web and news sources.",
     tools=[fact_finder_tool],
