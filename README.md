@@ -1,133 +1,95 @@
-# TruthLens
+# TruthLens – Agentic Misinformation Analysis
 
-TruthLens is an intelligent fact-finding agent that helps you verify claims and gather information from multiple sources across the web.
+This repository contains the initial implementation of the **TruthLens** agentic system, starting with the **Fact-Finder** agent.
 
-## Features
+## Architecture Overview
 
-- **Fact Finder Agent**: Automated agent for searching and verifying information
-- **Web Scraping**: Integration with Firecrawl API for reliable web content extraction
-- **Memory Storage**: Local storage system for persisting search results and findings
-- **Structured Data**: Pydantic schemas for type-safe data handling
+TruthLens is designed as a set of cooperating agents:
 
-## Project Structure
+1. **Fact-Finder (Data Ingestion)**  
+   - Uses Firecrawl APIs to search web + news for sources related to a user statement.  
+   - Stores structured metadata in a shared memory store.
 
-```
+2. **Pattern Analyzer (Structured Data Extractor)**  
+   - Uses Firecrawl extract APIs to turn pages into structured data (claims, statistics, tone).
+
+3. **Critic (Analytical Core / USP)**  
+   - Temporal narrative analysis, cross-source contradiction detection, and source bias / echo-chamber analysis.
+
+4. **Counterpoint Generator**  
+   - Generates the strongest reasonable counter-narrative without inventing new facts.
+
+5. **Moderator (Grounding & Consistency)**  
+   - Verifies all claims in final output are grounded in extracted data and checks logical consistency.
+
+6. **Explainer (User-Facing Report)**  
+   - Produces a multi-layered report for end users (confidence scores, key findings, narrative shift, sources, etc.).
+
+This repository currently focuses on the **Fact-Finder** agent only.
+
+## Directory Layout
+
+```text
 truthlens/
-├── agents/                          # Agent modules
+├── agents/
 │   ├── __init__.py
-│   └── fact_finder/                 # Fact finder agent
+│   └── fact_finder/
 │       ├── __init__.py
-│       ├── agent.py                 # Main agent implementation
-│       ├── tools/                   # Agent tools
+│       ├── agent.py
+│       ├── tools/
 │       │   ├── __init__.py
-│       │   └── firecrawl_fact_finder.py  # Firecrawl integration
-│       └── schemas/                 # Data schemas
+│       │   └── firecrawl_fact_finder.py
+│       └── schemas/
 │           ├── __init__.py
-│           └── fact_finder_schema.py     # Pydantic schemas
-├── memory/                          # Memory and storage
+│           └── fact_finder_schema.py
+├── memory/
 │   ├── __init__.py
-│   └── local_store.py              # Local file storage
-├── main.py                         # Main entry point
-├── requirements.txt                # Python dependencies
-├── .env.example                    # Example environment configuration
-└── README.md                       # This file
+│   └── local_store.py
+├── main.py
+├── requirements.txt
+├── .env.example
+└── README.md
 ```
 
-## Installation
+## Environment Setup
 
-1. Clone the repository:
-```bash
-git clone https://github.com/A1THARV/truthlens.git
-cd truthlens
-```
+1. Create a virtual environment and install dependencies:
 
-2. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Set up environment variables:
+2. Create a `.env` file (based on `.env.example`):
+
 ```bash
 cp .env.example .env
-# Edit .env and add your Firecrawl API key
 ```
 
-## Configuration
+3. Edit `.env` and set:
 
-Create a `.env` file in the project root with the following:
-
-```env
-FIRECRAWL_API_KEY=your_api_key_here
+```bash
+FIRECRAWL_API_KEY=your_real_firecrawl_api_key
+TRUTHLENS_MEMORY_PATH=./memory/fact_finder_store.json
 ```
 
-Get your Firecrawl API key from [https://firecrawl.dev](https://firecrawl.dev)
-
-## Usage
-
-Run the main application:
+## Running the Fact-Finder Agent Locally
 
 ```bash
 python main.py
 ```
 
-### Using the Fact Finder Agent
+You’ll be prompted for a statement (e.g., `recent delhi bomb blast and its link with terrorism`).
 
-```python
-from agents.fact_finder.agent import FactFinderAgent
+The Fact-Finder agent will:
 
-# Initialize the agent
-agent = FactFinderAgent()
+1. Interpret your input as a clear statement.
+2. Call the Firecrawl-based tool to search web + news.
+3. Store the resulting sources in local JSON memory.
+4. Print the structured result.
 
-# Run a fact-finding query
-result = agent.run(
-    query="What is the latest information about climate change?",
-    max_results=5
-)
+## Next Steps
 
-# Access the results
-print(result.summary)
-for source in result.sources:
-    print(f"{source.title}: {source.url}")
-```
-
-### Using Memory Storage
-
-```python
-from memory.local_store import LocalStore
-
-# Initialize storage
-store = LocalStore(storage_dir="data")
-
-# Save data
-store.save("my_key", {"some": "data"})
-
-# Load data
-data = store.load("my_key")
-
-# List all keys
-keys = store.list_keys()
-```
-
-## Dependencies
-
-- `agent-development-kit`: Framework for building AI agents
-- `requests`: HTTP library for API calls
-- `pydantic`: Data validation using Python type annotations
-- `python-dotenv`: Environment variable management
-
-## Development
-
-To contribute to TruthLens:
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## License
-
-This project is open source and available under the MIT License.
-
-## Support
-
-For issues, questions, or contributions, please open an issue on GitHub.
+- Add the Pattern Analyzer agent (Firecrawl extract + ArticleAnalysis schema).
+- Add Critic, Counterpoint, Moderator, Explainer agents.
+- Move memory to a managed data store (e.g., Firestore / Vertex AI Matching Engine).
+- Deploy agents to GCP (Vertex AI) once local iteration stabilizes.
