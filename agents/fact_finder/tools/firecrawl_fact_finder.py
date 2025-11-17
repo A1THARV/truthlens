@@ -1,92 +1,120 @@
-"""Firecrawl fact finder tool for web scraping and fact finding."""
-
 import os
+from typing import List, Dict, Any
+
 import requests
-from typing import List, Dict, Any, Optional
 from dotenv import load_dotenv
+from pydantic import ValidationError
+
+from agents.fact_finder.schemas.fact_finder_schema import SourceInfo, FactFinderResult
+from memory.local_store import LocalFactFinderMemory
 
 load_dotenv()
 
+FIRECRAWL_API_KEY = os.getenv("FIRECRAWL_API_KEY")
+FIRECRAWL_SEARCH_URL = "https://api.firecrawl.dev/v2/search"
 
-class FirecrawlFactFinder:
-    """Tool for finding facts using Firecrawl API."""
-    
-    def __init__(self, api_key: Optional[str] = None):
-        """Initialize the Firecrawl fact finder.
-        
-        Args:
-            api_key: Firecrawl API key. If not provided, will try to get from environment.
-        """
-        self.api_key = api_key or os.getenv("FIRECRAWL_API_KEY")
-        if not self.api_key:
-            raise ValueError("Firecrawl API key not provided and not found in environment")
-        
-        self.base_url = "https://api.firecrawl.dev/v0"
-        self.headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json"
-        }
-    
-    def search(self, query: str, max_results: int = 5) -> List[Dict[str, Any]]:
-        """Search for information related to a query.
-        
-        Args:
-            query: The search query
-            max_results: Maximum number of results to return
-            
-        Returns:
-            List of search results with URL, title, and content
-        """
-        # Note: This is a placeholder implementation
-        # Actual Firecrawl API integration would depend on their specific endpoints
-        results = []
-        
-        try:
-            # Example: Using a search endpoint (adjust based on actual API)
-            response = requests.post(
-                f"{self.base_url}/search",
-                headers=self.headers,
-                json={
-                    "query": query,
-                    "limit": max_results
-                },
-                timeout=30
-            )
-            
-            if response.status_code == 200:
-                data = response.json()
-                results = data.get("results", [])
-            else:
-                print(f"Search failed with status code: {response.status_code}")
-                
-        except Exception as e:
-            print(f"Error during search: {str(e)}")
-        
-        return results
-    
-    def scrape_url(self, url: str) -> Dict[str, Any]:
-        """Scrape content from a URL.
-        
-        Args:
-            url: The URL to scrape
-            
-        Returns:
-            Dictionary with scraped content
-        """
-        try:
-            response = requests.post(
-                f"{self.base_url}/scrape",
-                headers=self.headers,
-                json={"url": url},
-                timeout=30
-            )
-            
-            if response.status_code == 200:
-                return response.json()
-            else:
-                print(f"Scraping failed with status code: {response.status_code}")
-                return {}
-                
-        except Exception as e:
-            print(f"Error during scraping: {str(e)}")
-            return {}
+
+class FirecrawlError(Exception):
+    """Custom exception for Firecrawl-related errors."""
+
+
+def call_firecrawl_search(statement: str, limit: int = 20) -> Dict[str, Any]:
+    """
+    Low-level call to Firecrawl's /v2/search endpoint for a given statement.
+    """
+    if not FIRECRAWL_API_KEY:
+        raise FirecrawlError("FIRECRAWL_API_KEY is not set in environment")
+
+    payload = {
+        "query": statement,
+        "sources": ["web", "news"],
+        "limit": limit,
+        "scrapeOptions": {
+            "formats": [
+                {
+                    "type": "json",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "title": {"type": "string"},
+                            "url": {"type": "string"},
+                            "description": {"type": "string"},
+                            "source_name": {"type": "string"},
+                            "publish_date": {"type": "string"},
+                        },
+                        "required": ["url"],
+                    },
+                    "prompt": (
+                        "Extract the following fields for this result: "
+                        "title of the article, direct URL, a brief description, "
+                        "the name of the publication (source_name), and the publication date."
+                    ),
+                }
+            ]
+        },
+    }
+
+    headers = {
+        "Authorization": f"Bearer {FIRECRAWL_API_KEY}",
+        "Content-Type": "application/json",
+    }
+
+    try:
+        response = requests.post(
+            FIRECRAWL_SEARCH_URL,
+            json=payload,
+            headers=headers,
+            timeout=60,
+        )
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        body = getattr(e.response, "text", None) if getattr(e, "response", None) else None
+        raise FirecrawlError(f"Firecrawl API error: {e}. Body: {body}") from e
+
+
+def run_fact_finder(statement: str, limit: int = 20) -> FactFinderResult:
+    """
+    High-level Fact-Finder logic:
+
+    - Calls Firecrawl search.
+    - Normalizes + validates results into SourceInfo objects.
+    - Persists them to local memory.
+    - Returns a FactFinderResult instance.
+    """
+    api_data = call_firecrawl_search(statement=statement, limit=limit)
+
+    all_sources: List[SourceInfo] = []
+    seen_urls: set[str] = set()
+
+    search_data = api_data.get("data", {})
+
+    for source_type in ["news", "web"]:
+        results = search_data.get(source_type, [])
+        for result in results:
+            structured_info = result.get("json")
+            if not structured_info or not isinstance(structured_info, dict):
+                continue
+
+            url = structured_info.get("url")
+            if not url or url in seen_urls:
+                continue
+
+            structured_info["source_type"] = source_type
+
+            try:
+                source = SourceInfo(**structured_info)
+            except ValidationError:
+                # Skip invalid entries, but continue processing others.
+                continue
+
+            all_sources.append(source)
+            seen_urls.add(url)
+
+    fact_result = FactFinderResult(statement=statement, sources=all_sources)
+
+    # Persist to local memory for later agents (Pattern Analyzer, Critic, etc.)
+    memory = LocalFactFinderMemory()
+    memory.save_result(fact_result)
+
+    return fact_result
