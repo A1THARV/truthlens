@@ -1,7 +1,7 @@
 from typing import Any, Dict
 
-from google_adk.agents import Agent
-from google_adk.tools import python_tool
+from google.adk.agents import Agent
+from google.adk.tools import python_tool
 
 from agents.fact_finder.tools.firecrawl_fact_finder import run_fact_finder
 from agents.fact_finder.schemas.fact_finder_schema import FactFinderResult
