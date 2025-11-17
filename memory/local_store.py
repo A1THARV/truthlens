@@ -1,118 +1,63 @@
-"""Local storage implementation for memory persistence."""
-
 import json
 import os
-from typing import Any, Dict, Optional, List
-from datetime import datetime
+from typing import Dict, Any, Optional
+from pathlib import Path
+from hashlib import sha256
+
+from dotenv import load_dotenv
+
+from agents.fact_finder.schemas.fact_finder_schema import FactFinderResult
+
+load_dotenv()
+
+_DEFAULT_MEMORY_PATH = os.getenv("TRUTHLENS_MEMORY_PATH", "./memory/fact_finder_store.json")
 
 
-class LocalStore:
-    """Local file-based storage for agent memory."""
-    
-    def __init__(self, storage_dir: str = "data"):
-        """Initialize the local store.
-        
-        Args:
-            storage_dir: Directory to store data files
-        """
-        self.storage_dir = storage_dir
-        os.makedirs(storage_dir, exist_ok=True)
-    
-    def save(self, key: str, data: Any) -> bool:
-        """Save data to local storage.
-        
-        Args:
-            key: Unique identifier for the data
-            data: Data to store (must be JSON serializable)
-            
-        Returns:
-            True if successful, False otherwise
-        """
-        try:
-            file_path = os.path.join(self.storage_dir, f"{key}.json")
-            
-            # Add metadata
-            store_data = {
-                "key": key,
-                "data": data,
-                "timestamp": datetime.now().isoformat(),
-            }
-            
-            with open(file_path, 'w') as f:
-                json.dump(store_data, f, indent=2)
-            
-            return True
-        except Exception as e:
-            print(f"Error saving data: {str(e)}")
-            return False
-    
-    def load(self, key: str) -> Optional[Any]:
-        """Load data from local storage.
-        
-        Args:
-            key: Unique identifier for the data
-            
-        Returns:
-            The stored data, or None if not found
-        """
-        try:
-            file_path = os.path.join(self.storage_dir, f"{key}.json")
-            
-            if not os.path.exists(file_path):
-                return None
-            
-            with open(file_path, 'r') as f:
-                store_data = json.load(f)
-            
-            return store_data.get("data")
-        except Exception as e:
-            print(f"Error loading data: {str(e)}")
+class LocalFactFinderMemory:
+    """
+    Simple JSON-file-based memory for Fact-Finder results.
+
+    This is a temporary solution for local development. In production, this can be
+    replaced with a managed store (e.g., Firestore, Vertex AI Matching Engine).
+    """
+
+    def __init__(self, path: str | Path | None = None) -> None:
+        self.path = Path(path or _DEFAULT_MEMORY_PATH)
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        if not self.path.exists():
+            self._write_store({})
+
+    def _read_store(self) -> Dict[str, Any]:
+        if not self.path.exists():
+            return {}
+        with self.path.open("r", encoding="utf-8") as f:
+            try:
+                return json.load(f)
+            except json.JSONDecodeError:
+                return {}
+
+    def _write_store(self, data: Dict[str, Any]) -> None:
+        with self.path.open("w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+
+    @staticmethod
+    def _key_for_statement(statement: str) -> str:
+        """Create a stable key for a given statement."""
+        return sha256(statement.strip().encode("utf-8")).hexdigest()
+
+    def save_result(self, result: FactFinderResult) -> str:
+        """Save a FactFinderResult, return the generated key."""
+        store = self._read_store()
+        key = self._key_for_statement(result.statement)
+        store[key] = result.model_dump()
+        self._write_store(store)
+        return key
+
+    def get_result_by_statement(self, statement: str) -> Optional[FactFinderResult]:
+        """Retrieve a stored result by exact statement (hash-based lookup)."""
+        store = self._read_store()
+        key = self._key_for_statement(statement)
+        data = store.get(key)
+        if not data:
             return None
-    
-    def delete(self, key: str) -> bool:
-        """Delete data from local storage.
-        
-        Args:
-            key: Unique identifier for the data
-            
-        Returns:
-            True if successful, False otherwise
-        """
-        try:
-            file_path = os.path.join(self.storage_dir, f"{key}.json")
-            
-            if os.path.exists(file_path):
-                os.remove(file_path)
-            
-            return True
-        except Exception as e:
-            print(f"Error deleting data: {str(e)}")
-            return False
-    
-    def list_keys(self) -> List[str]:
-        """List all keys in the store.
-        
-        Returns:
-            List of keys
-        """
-        try:
-            files = os.listdir(self.storage_dir)
-            keys = [f.replace('.json', '') for f in files if f.endswith('.json')]
-            return keys
-        except Exception as e:
-            print(f"Error listing keys: {str(e)}")
-            return []
-    
-    def clear(self) -> bool:
-        """Clear all data from the store.
-        
-        Returns:
-            True if successful, False otherwise
-        """
-        try:
-            for key in self.list_keys():
-                self.delete(key)
-            return True
-        except Exception as e:
-            print(f"Error clearing store: {str(e)}")
-            return False
+        return FactFinderResult(**data)
