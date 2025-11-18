@@ -7,6 +7,7 @@ from pydantic import ValidationError
 
 from agents.fact_finder.schemas.fact_finder_schema import SourceInfo, FactFinderResult
 from memory.local_store import LocalFactFinderMemory
+from memory.session_store import save_fact_finder_result_session
 
 load_dotenv()
 
@@ -24,6 +25,9 @@ def call_firecrawl_search(statement: str, limit: int = 20) -> Dict[str, Any]:
     """
     if not FIRECRAWL_API_KEY:
         raise FirecrawlError("FIRECRAWL_API_KEY is not set in environment")
+
+    # CAP LIMIT AT 20
+    limit = min(limit, 20)
 
     payload = {
         "query": statement,
@@ -64,7 +68,7 @@ def call_firecrawl_search(statement: str, limit: int = 20) -> Dict[str, Any]:
             FIRECRAWL_SEARCH_URL,
             json=payload,
             headers=headers,
-            timeout=60,
+            timeout=60,  # KEEP timeout at 60s as you requested
         )
         response.raise_for_status()
         return response.json()
@@ -79,7 +83,7 @@ def run_fact_finder(statement: str, limit: int = 20) -> FactFinderResult:
 
     - Calls Firecrawl search.
     - Normalizes + validates results into SourceInfo objects.
-    - Persists them to local memory.
+    - Persists them to memory (both file-backed and session).
     - Returns a FactFinderResult instance.
     """
     api_data = call_firecrawl_search(statement=statement, limit=limit)
@@ -111,10 +115,16 @@ def run_fact_finder(statement: str, limit: int = 20) -> FactFinderResult:
             all_sources.append(source)
             seen_urls.add(url)
 
-    fact_result = FactFinderResult(statement=statement, sources=all_sources)
+    # Normalize statement minimally
+    normalized_statement = statement.strip()
 
-    # Persist to local memory for later agents (Pattern Analyzer, Critic, etc.)
-    memory = LocalFactFinderMemory()
-    memory.save_result(fact_result)
+    fact_result = FactFinderResult(statement=normalized_statement, sources=all_sources)
+
+    # Persist to file-backed local memory (so you can inspect anytime)
+    file_memory = LocalFactFinderMemory()
+    file_memory.save_result(fact_result)
+
+    # Persist to in-memory session store (for this process / session)
+    save_fact_finder_result_session(fact_result)
 
     return fact_result
