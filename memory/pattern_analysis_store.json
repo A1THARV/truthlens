@@ -1,0 +1,91 @@
+{
+  "126b887ca2ad7b0e75184e829da7f6d3a063e7cc365375a587721a5ca802ecfa": {
+    "statement": "China use AI-generated images of aircraft debris to spread disinformation about French Rafale jets",
+    "analyzed_articles": [
+      {
+        "url": "https://news.abplive.com/news/india/china-ran-disinformation-campaign-to-undermine-rafale-jet-sales-after-india-pakistan-clash-us-report-1812540",
+        "source_name": "ABP Live News",
+        "publish_date": "20-11-2025",
+        "source_type": "news",
+        "title": "China Ran Disinformation Campaign To Undermine Rafale Jet Sales After India-Pakistan Clash: US Report",
+        "source_country": "India",
+        "source_class": "mainstream",
+        "key_claims": [
+          {
+            "text": "China used fake social media accounts to circulate AI-generated images showing fabricated “debris” of Rafale aircraft supposedly shot down by Chinese-made weaponry.",
+            "modality": "Allegation",
+            "blame_target": "China",
+            "evidence": "The latest US-China Economic and Security Review Commission report submitted to the US Congress, which cites French intelligence assessments."
+          }
+        ],
+        "narrative_summary": "According to a US-China Economic and Security Review Commission report, China initiated a disinformation campaign after the India-Pakistan border conflict in May. The campaign allegedly involved using fake social media accounts and AI-generated images of destroyed Rafale aircraft to undermine the French jet's sales and promote China's own J-35 fighters. The report suggests this effort led Indonesia to pause a Rafale purchase.",
+        "statistics": "In June 2025, China reportedly offered Pakistan a defence package including 40 J-35 fifth-generation fighter jets, KJ-500 aircraft, and ballistic missile defence systems.",
+        "stance": "The article reports on the findings of a US government commission's report, presenting the information as allegations against China.",
+        "bias_indicators": "The article is based on a US government report critical of China and is published by an Indian news outlet, which may influence the framing of the issue. However, it attributes the claims to the report, maintaining a degree of journalistic distance."
+      },
+      {
+        "url": "https://www.reuters.com/world/china/china-ran-campaign-discredit-french-rafale-fighter-after-india-pakistan-conflict-2025-11-20/",
+        "source_name": null,
+        "publish_date": null,
+        "source_type": null,
+        "title": "China ran campaign to discredit French Rafale fighter after India-Pakistan conflict, US commission says",
+        "source_country": null,
+        "source_class": null,
+        "key_claims": [
+          {
+            "text": "China used fake social media accounts to share AI-generated images as well as video game images of supposed debris of aircraft that Chinese weaponry had destroyed.",
+            "modality": "Asserted as a finding",
+            "blame_target": "China",
+            "evidence": "A report by the U.S.-China Economic and Security Review Commission to the U.S. Congress."
+          }
+        ],
+        "narrative_summary": "A bipartisan U.S. commission reported that China conducted a disinformation campaign to damage the reputation and sales of the French Rafale fighter jet. This followed an incident where Pakistan's Chinese-made J-10 fighter shot down an Indian Rafale. The campaign allegedly involved using fake social media accounts to circulate AI-generated and video game images of supposed aircraft debris. The Chinese foreign ministry has rejected the report as false information from a biased source.",
+        "statistics": "Ukraine signed a letter of intent for up to 100 Rafale fighters. More than half a dozen countries have purchased the Rafale. At least one Indian Rafale was reportedly shot down by a Pakistani J-10 fighter during a four-day conflict. A total of three Indian military jets were reportedly downed.",
+        "stance": "Neutral. The article reports on the U.S. commission's claims and includes a direct rebuttal from the Chinese foreign ministry, presenting both sides of the issue.",
+        "bias_indicators": "The article maintains a balanced perspective by attributing claims to their respective sources (the U.S. commission and the Chinese foreign ministry) without endorsing either viewpoint."
+      },
+      {
+        "url": "https://timesofindia.indiatimes.com/world/us/fake-debris-images-us-flags-chinas-disinformation-campaign-against-rafale-after-operation-sindoor-what-it-says/articleshow/125432257.cms",
+        "source_name": "Times of India",
+        "publish_date": "19-11-2025",
+        "source_type": "web",
+        "title": "Fake debris images? US flags China's 'disinformation campaign' against Rafale after Operation Sindoor — what it says",
+        "source_country": "India",
+        "source_class": "mainstream",
+        "key_claims": [
+          {
+            "text": "Following the May 2025 India-Pakistan border crisis, China initiated a disinformation campaign to hinder sales of French Rafale aircraft in favor of its own J-35s, using fake social media accounts to propagate AI images of supposed “debris” from the planes that China’s weaponry destroyed.",
+            "modality": "Allegation",
+            "blame_target": "China",
+            "evidence": "The article cites a US annual report from the US-China Economic and Security Review Commission, which in turn cites French intelligence."
+          }
+        ],
+        "narrative_summary": "A US report from the US-China Economic and Security Review Commission alleges that China launched a disinformation campaign following 'Operation Sindoor' to discredit French Rafale jets and promote its own J-35 fighters. The campaign reportedly involved using AI-generated images of fake debris from destroyed planes. The report also claims China encouraged Pakistan to down Indian Rafales and used this as a sales tactic, which allegedly led Indonesia to halt its purchase of Rafale jets.",
+        "statistics": "Only three jets flown by India’s military were reportedly downed, and not all may have been Rafales. China planned to sell 30 J-35A stealth fighters to Pakistan at roughly half price.",
+        "stance": "The article reports on a US government advisory body's report that is critical of China's actions, presenting the allegations as the central focus.",
+        "bias_indicators": "The article is from an Indian publication and focuses on a US report that aligns with Indian geopolitical concerns regarding China and Pakistan. The framing highlights China's alleged efforts to undermine India's military hardware (Rafale jets)."
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=vlN_eu1jkX0",
+        "source_name": "NewsX Live",
+        "publish_date": "18-11-2025",
+        "source_type": "web",
+        "title": "China Exposed: US Report Exposes China’s Fake Rafale Debris Plot During India-Pakistan Conflict",
+        "source_country": "India",
+        "source_class": "mainstream",
+        "key_claims": [
+          {
+            "text": "China launched an AI-backed disinformation campaign, using fake social media accounts and fabricated AI images of 'Rafale debris' to undermine India and sabotage French Rafale sales.",
+            "modality": "Factual claim based on a cited report.",
+            "blame_target": "China",
+            "evidence": "A new report by the US-China Economic and Security Review Commission."
+          }
+        ],
+        "narrative_summary": "A report by the US-China Economic and Security Review Commission reveals that China initiated an AI-backed disinformation campaign during the India-Pakistan conflict in May. The report states that Beijing utilized fake social media accounts and fabricated AI images of \"Rafale debris\" to undermine India and sabotage the sales of French Rafale jets, aiming to promote its own J-35 fighter jets.",
+        "statistics": "2,002 views, 21 likes as of November 18, 2025.",
+        "stance": "The article is critical of China, presenting its actions as a deliberate disinformation campaign intended for economic and geopolitical advantage. It supports the findings of the US report and the Indian government's position that no Rafale jets were lost.",
+        "bias_indicators": "The title \"China Exposed\" and the framing of the story indicate a strong bias against China. The reporting treats the US commission's findings as conclusive evidence of Chinese misconduct, aligning with an Indian nationalist perspective."
+      }
+    ]
+  }
+}

@@ -6,56 +6,16 @@ from agents.pattern_analyzer.tools.firecrawl_pattern_analyzer import run_pattern
 from agents.pattern_analyzer.schemas.pattern_analyzer_schema import PatternAnalysisResult
 
 
-def pattern_analyzer_tool(statement: str) -> Dict[str, Any]:
+def pattern_analyzer_tool() -> Dict[str, Any]:
     """
     Tool interface for the Pattern Analyzer.
 
-    Args:
-        statement: The normalized statement describing the event or claim.
-                   This is used ONLY to locate Fact-Finder results in memory
-                   and provide context for the Firecrawl extraction prompt.
-
-    Returns:
-        Dict representation of PatternAnalysisResult, e.g.:
-        {
-          "statement": "...",
-          "analyzed_articles": [
-            {
-              "url": "...",
-              "source_name": "...",
-              "publish_date": "...",
-              "source_type": "news",
-              "title": "...",
-              "key_claims": [
-                {
-                  "text": "...",
-                  "modality": "factual",
-                  "blame_target": "government",
-                  "evidence": "..."
-                }
-              ],
-              "quoted_sources": ["...", "..."],
-              "statistics": [
-                {
-                  "text": "10 people were killed and 32 injured",
-                  "value": 10,
-                  "unit": "people"
-                }
-              ],
-              "overall_tone": "Alarmist",
-              "bias_indicators": [
-                {
-                  "type": "sensationalism",
-                  "description": "..."
-                }
-              ],
-              "narrative_summary": "..."
-            },
-            ...
-          ]
-        }
+    No user arguments:
+      - Uses the latest Fact-Finder result from session or local memory.
+      - Runs Firecrawl extract in URL batches.
+      - Returns a PatternAnalysisResult as dict.
     """
-    result: PatternAnalysisResult = run_pattern_analyzer(statement=statement)
+    result: PatternAnalysisResult = run_pattern_analyzer()
     return result.model_dump()
 
 
@@ -65,31 +25,41 @@ You are the Pattern Analyzer agent in the TruthLens system.
 TruthLens is an agentic architecture for analyzing misinformation and contested claims.
 The full pipeline includes:
 - Fact-Finder: gathers relevant sources (already executed before you).
-- Pattern Analyzer (you): extracts structured claims, statistics, tone, and bias from sources.
-- Critic: performs temporal narrative analysis, cross-source contradiction detection,
-  and source bias / echo-chamber analysis.
-- Counterpoint Generator: constructs the strongest reasonable alternative argument.
-- Moderator: grounds and cross-checks claims against extracted data.
-- Explainer: synthesizes a multi-layered report for the user.
+- Pattern Analyzer (you): extracts structured claims, stance, statistics text, and narrative summaries from sources.
+- Critic: performs temporal narrative analysis and cross-source comparison.
+- Counterpoint Generator, Moderator, Explainer: downstream consumers of your structured output.
 
 YOUR ROLE (Pattern Analyzer):
 
-1. The user or caller will provide a STATEMENT describing the event or claim.
-   - You MUST NOT directly search the web or fetch URLs yourself.
-   - Instead, you rely on Fact-Finder memory, which already stores sources for this statement.
+1. You do NOT take the user query or statement directly.
+   - Fact-Finder has already run in this session and stored its results in memory.
+   - You operate on the latest Fact-Finder result (its statement and sources).
 
-2. You MUST call the tool 'pattern_analyzer_tool' with the final statement.
+2. You MUST call the tool 'pattern_analyzer_tool' with NO arguments.
    - The tool will:
-     - Look up Fact-Finder results for the statement.
-     - Filter to textual URLs (skip video-only sites).
-     - Limit to the top 10 URLs.
-     - Call Firecrawl's /v2/extract endpoint with a JSON schema tailored for narrative and bias analysis.
-     - Persist a PatternAnalysisResult in local memory.
+     - Load the latest Fact-Finder result from session/local memory.
+     - Filter to textual URLs (skip video-first sites like Vimeo, TikTok, Instagram).
+     - Split URLs into small batches and call Firecrawl's /v2/extract endpoint.
+     - Use a JSON schema that returns, for each article:
+       - title
+       - source_url
+       - statistics (single text field)
+       - narrative_summary (2–3 sentences)
+       - key_claims: an object with `text`, `blame_target`, `modality`, `evidence`
+       - stance (article-level)
+       - bias_indication (article-level)
+     - Merge this with Fact-Finder metadata:
+       - source_name, source_type, publish_date, source_country, source_class.
+     - Map extracted data into PatternAnalysisResult.
+     - Persist that result in:
+       * in-memory session state (for this process), and
+       * local JSON memory (for inspection/testing).
      - Return the PatternAnalysisResult as structured JSON.
 
 3. You MUST NOT invent claims, statistics, or sources.
    - Only use what the tool and Firecrawl extraction provide.
-   - If no Fact-Finder data exists for the statement, you should report this as an error.
+   - If no Fact-Finder data exists in memory for this session, return an error
+     indicating that Fact-Finder must be run first.
 
 4. OUTPUT FORMAT (IMPORTANT):
    - Your final answer MUST be the exact JSON object returned by the tool, with no extra keys.
@@ -102,33 +72,24 @@ YOUR ROLE (Pattern Analyzer):
            "source_name": "...",
            "publish_date": "...",
            "source_type": "web" or "news",
+           "source_country": "...",
+           "source_class": "...",
            "title": "...",
            "key_claims": [
              {
                "text": "...",
-               "modality": "factual" | "speculative" | "rumor" | ...,
+               "modality": "...",
                "blame_target": "...",
-               "evidence": "..."
+               "evidence": "...",
+               "stance": "...",
+               "category": "..."
              },
              ...
            ],
-           "quoted_sources": ["...", ...],
-           "statistics": [
-             {
-               "text": "...",
-               "value": 123.0,
-               "unit": "people"
-             },
-             ...
-           ],
-           "overall_tone": "Neutral" | "Alarmist" | "Reassuring" | "Accusatory" | "Analytical" | ...,
-           "bias_indicators": [
-             {
-               "type": "political_alignment" | "religious" | "nationalist" | "sensationalism" | ...,
-               "description": "..."
-             },
-             ...
-           ],
+           "statistics": "...",          // single text field from Firecrawl
+           "stance": "...",              // article-level stance from Firecrawl
+           "bias_indicators": ["...", ...],  // textual descriptions from Firecrawl or later enrichment
+           "overall_tone": "...",        // optional, may be null
            "narrative_summary": "..."
          },
          ...
@@ -138,7 +99,9 @@ YOUR ROLE (Pattern Analyzer):
    - Do NOT add commentary before or after the JSON.
 
 5. Memory:
-   - Pattern Analyzer results are stored in a dedicated local memory store keyed by the statement.
+   - Pattern Analyzer results are stored in:
+     - in-memory session state keyed by the statement (for live chaining), and
+     - a dedicated local memory store keyed by the statement (for testing/inspection).
    - The Critic and later agents will use these structured results.
    - You do not need to manually manage persistence; the tool already handles it.
 """.strip()
@@ -148,6 +111,10 @@ root_agent = Agent(
     name="truthlens_pattern_analyzer",
     model="gemini-2.5-flash",
     instruction=PATTERN_ANALYZER_SYSTEM_PROMPT,
-    description="Pattern Analyzer agent for TruthLens that extracts structured claims, tone, statistics, and bias from Fact-Finder sources.",
+    description=(
+        "Pattern Analyzer agent for TruthLens that extracts structured claims, "
+        "article-level stance, statistics text, and narrative summaries from "
+        "Fact-Finder sources using Firecrawl FIRE-1."
+    ),
     tools=[pattern_analyzer_tool],
 )

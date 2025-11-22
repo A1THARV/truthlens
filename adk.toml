@@ -1,0 +1,11 @@
+[app]
+# Python import path to your root agent object
+root_agent = "agents.fact_finder.agent.root_agent"
+
+[env]
+# ADK can load environment variables from your .env file (optional)
+dotenv_path = ".env"
+
+[run]
+# Default model; you can override inside the agent as well
+default_model = "gemini-2.5-flash"

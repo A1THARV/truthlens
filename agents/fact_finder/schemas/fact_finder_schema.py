@@ -13,6 +13,9 @@ class SourceInfo(BaseModel):
     source_name: Optional[str] = None
     publish_date: Optional[str] = None
     source_type: str  # 'web' or 'news'
+    source_class: Optional[str] = None
+    source_country: Optional[str] = None
+    historical_verdicts: Optional[str] = None
 
 
 class FactFinderResult(BaseModel):

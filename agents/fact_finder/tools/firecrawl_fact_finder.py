@@ -19,7 +19,7 @@ class FirecrawlError(Exception):
     """Custom exception for Firecrawl-related errors."""
 
 
-def call_firecrawl_search(statement: str, limit: int = 20) -> Dict[str, Any]:
+def call_firecrawl_search(statement: str, limit: int = 5) -> Dict[str, Any]:
     """
     Low-level call to Firecrawl's /v2/search endpoint for a given statement.
     """
@@ -27,7 +27,7 @@ def call_firecrawl_search(statement: str, limit: int = 20) -> Dict[str, Any]:
         raise FirecrawlError("FIRECRAWL_API_KEY is not set in environment")
 
     # CAP LIMIT AT 20
-    limit = min(limit, 20)
+    limit = min(limit, 5)
 
     payload = {
         "query": statement,
@@ -44,14 +44,20 @@ def call_firecrawl_search(statement: str, limit: int = 20) -> Dict[str, Any]:
                             "url": {"type": "string"},
                             "description": {"type": "string"},
                             "source_name": {"type": "string"},
-                            "publish_date": {"type": "string"},
+                            "source_type": {"type": "string"},
+                            "source_class": {"type": "string"},
+                            "source_country": {"type": "string"},
+                            "historical_verdicts": {"type": "string"},
+                            "publish_date": {"type": "string", "format": "date"},
                         },
                         "required": ["url"],
                     },
                     "prompt": (
                         "Extract the following fields for this result: "
                         "title of the article, direct URL, a brief description, "
-                        "the name of the publication (source_name), and the publication date."
+                        "the name of the publication (source_name), the country of the publication (source_country), "
+                        "historical verdicts related to the statement (historical_verdicts), "
+                        "the type of publication source class (e.g. state_media/mainstream/partisan/unknown), and the publication date in dd-mm-yyyy format."
                     ),
                 }
             ]
@@ -77,7 +83,7 @@ def call_firecrawl_search(statement: str, limit: int = 20) -> Dict[str, Any]:
         raise FirecrawlError(f"Firecrawl API error: {e}. Body: {body}") from e
 
 
-def run_fact_finder(statement: str, limit: int = 20) -> FactFinderResult:
+def run_fact_finder(statement: str, limit: int = 5) -> FactFinderResult:
     """
     High-level Fact-Finder logic:
 
@@ -125,6 +131,6 @@ def run_fact_finder(statement: str, limit: int = 20) -> FactFinderResult:
     file_memory.save_result(fact_result)
 
     # Persist to in-memory session store (for this process / session)
-    save_fact_finder_result_session(fact_result)
+    save_fact_finder_result_session(fact_result.model_dump())
 
     return fact_result

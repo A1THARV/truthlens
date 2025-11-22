@@ -1,4 +1,4 @@
-agent-development-kit
+google-adk
 requests
 pydantic
 python-dotenv

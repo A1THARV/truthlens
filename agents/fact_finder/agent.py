@@ -85,6 +85,8 @@ YOUR ROLE (Fact-Finder):
            "source_name": "...",
            "publish_date": "...",
            "source_type": "web" or "news"
+           "source_country": "...",
+           "source_class": "...",
          },
          ...
        ]

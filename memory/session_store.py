@@ -1,10 +1,7 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Dict, Optional
-
-from agents.fact_finder.schemas.fact_finder_schema import FactFinderResult
-from agents.pattern_analyzer.schemas.pattern_analyzer_schema import PatternAnalysisResult
+from dataclasses import dataclass, field
+from typing import Any, Dict, Optional
 
 
 @dataclass
@@ -12,20 +9,18 @@ class SessionState:
     """
     In-memory, per-process session state.
 
-    This is intentionally NOT persistent: it lives only as long as the Python
-    process is running (e.g., an ADK CLI session or a web server worker).
+    Not persisted to disk. Cleared when the Python process ends.
+    We intentionally avoid importing Pydantic models here to prevent circular imports.
+    We just store plain dicts keyed by normalized statement; callers are responsible
+    for converting to/from concrete models.
     """
+    # Keyed by normalized statement string
+    fact_finder_results: Dict[str, Dict[str, Any]] = field(default_factory=dict)
+    pattern_analysis_results: Dict[str, Dict[str, Any]] = field(default_factory=dict)
 
-    # Keyed by statement string (exact, stripped)
-    fact_finder_results: Dict[str, FactFinderResult]
-    pattern_analysis_results: Dict[str, PatternAnalysisResult]
 
-
-# Global in-memory singleton for this process
-_SESSION_STATE = SessionState(
-    fact_finder_results={},
-    pattern_analysis_results={},
-)
+# Global singleton for this process
+_SESSION_STATE = SessionState()
 
 
 def _normalize_statement(statement: str) -> str:
@@ -34,44 +29,56 @@ def _normalize_statement(statement: str) -> str:
 
 # ---------- Fact-Finder session memory ----------
 
-def save_fact_finder_result(result: FactFinderResult) -> None:
+def save_fact_finder_result_session(result_dict: Dict[str, Any]) -> None:
     """
-    Save a FactFinderResult for this session, keyed by its statement.
+    Save a FactFinderResult as a dict in session memory keyed by its normalized statement.
+    Expected shape of result_dict:
+      {
+        "statement": "...",
+        "sources": [...],
+        ...
+      }
     """
-    key = _normalize_statement(result.statement)
-    _SESSION_STATE.fact_finder_results[key] = result
+    statement = result_dict.get("statement", "")
+    key = _normalize_statement(statement)
+    _SESSION_STATE.fact_finder_results[key] = result_dict
 
 
-def get_fact_finder_result(statement: str) -> Optional[FactFinderResult]:
+def get_fact_finder_result_session(statement: str) -> Optional[Dict[str, Any]]:
     """
-    Get FactFinderResult for this session by statement string.
+    Get a FactFinderResult dict from session memory by statement string.
     """
     key = _normalize_statement(statement)
     return _SESSION_STATE.fact_finder_results.get(key)
 
 
-def get_latest_fact_finder_result() -> Optional[FactFinderResult]:
+def get_latest_fact_finder_result_session() -> Optional[Dict[str, Any]]:
     """
-    Get the most recently saved FactFinderResult, if any.
-    Order is based on insertion order in the dict.
+    Get the most recently saved FactFinderResult dict, if any.
     """
     if not _SESSION_STATE.fact_finder_results:
         return None
-    # Python 3.7+ dict preserves insertion order
     last_key = next(reversed(_SESSION_STATE.fact_finder_results))
     return _SESSION_STATE.fact_finder_results[last_key]
 
 
 # ---------- Pattern Analyzer session memory ----------
 
-def save_pattern_analysis_result(result: PatternAnalysisResult) -> None:
+def save_pattern_analysis_result_session(result_dict: Dict[str, Any]) -> None:
     """
-    Save PatternAnalysisResult for this session, keyed by its statement.
+    Save a PatternAnalysisResult as a dict in session memory keyed by its normalized statement.
+    Expected shape:
+      {
+        "statement": "...",
+        "analyzed_articles": [...],
+        ...
+      }
     """
-    key = _normalize_statement(result.statement)
-    _SESSION_STATE.pattern_analysis_results[key] = result
+    statement = result_dict.get("statement", "")
+    key = _normalize_statement(statement)
+    _SESSION_STATE.pattern_analysis_results[key] = result_dict
 
 
-def get_pattern_analysis_result(statement: str) -> Optional[PatternAnalysisResult]:
+def get_pattern_analysis_result_session(statement: str) -> Optional[Dict[str, Any]]:
     key = _normalize_statement(statement)
     return _SESSION_STATE.pattern_analysis_results.get(key)
