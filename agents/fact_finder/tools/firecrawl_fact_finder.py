@@ -27,7 +27,7 @@ def call_firecrawl_search(statement: str, limit: int = 5) -> Dict[str, Any]:
         raise FirecrawlError("FIRECRAWL_API_KEY is not set in environment")
 
     # CAP LIMIT AT 20
-    limit = min(limit, 5)
+    limit = min(limit, 20)
 
     payload = {
         "query": statement,
@@ -56,8 +56,8 @@ def call_firecrawl_search(statement: str, limit: int = 5) -> Dict[str, Any]:
                         "Extract the following fields for this result: "
                         "title of the article, direct URL, a brief description, "
                         "the name of the publication (source_name), the country of the publication (source_country), "
-                        "historical verdicts related to the statement (historical_verdicts), "
-                        "the type of publication source class (e.g. state_media/mainstream/partisan/unknown), and the publication date in dd-mm-yyyy format."
+                        "any historical verdicts related to the statements (historical_verdicts), "
+                        "the type of publication source class (state_media/mainstream/partisan/unknown), and the publication date in dd-mm-yyyy format."
                     ),
                 }
             ]

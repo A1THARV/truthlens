@@ -1,90 +1,153 @@
 {
-  "126b887ca2ad7b0e75184e829da7f6d3a063e7cc365375a587721a5ca802ecfa": {
-    "statement": "China use AI-generated images of aircraft debris to spread disinformation about French Rafale jets",
+  "2d648bd58ebb14bea084977baa890cd5d7321da39354512b69f5385e1449c075": {
+    "statement": "Gold prices drop in India as rupee strengthens",
     "analyzed_articles": [
       {
-        "url": "https://news.abplive.com/news/india/china-ran-disinformation-campaign-to-undermine-rafale-jet-sales-after-india-pakistan-clash-us-report-1812540",
-        "source_name": "ABP Live News",
-        "publish_date": "20-11-2025",
+        "url": "https://news.abplive.com/business/personal-finance/gold-rates-fall-today-chennai-gold-prices-november-4-1809761",
+        "source_name": "ABP Live",
+        "publish_date": "04-11-2025",
         "source_type": "news",
-        "title": "China Ran Disinformation Campaign To Undermine Rafale Jet Sales After India-Pakistan Clash: US Report",
+        "title": "Gold Price Today In Chennai: Rates Dip As Rupee Strengthens Against Dollar",
         "source_country": "India",
         "source_class": "mainstream",
         "key_claims": [
           {
-            "text": "China used fake social media accounts to circulate AI-generated images showing fabricated “debris” of Rafale aircraft supposedly shot down by Chinese-made weaponry.",
-            "modality": "Allegation",
-            "blame_target": "China",
-            "evidence": "The latest US-China Economic and Security Review Commission report submitted to the US Congress, which cites French intelligence assessments."
+            "text": "Gold prices in Chennai have dipped because the Indian rupee has strengthened against the US dollar.",
+            "modality": "Factual reporting",
+            "blame_target": "The strengthening of the Indian rupee against the US dollar.",
+            "evidence": "The article explains that since gold is traded internationally in US dollars, a stronger rupee reduces the import cost, leading to lower domestic prices. It states, \"When the rupee appreciates, import costs decline, often providing temporary price relief for consumers.\""
           }
         ],
-        "narrative_summary": "According to a US-China Economic and Security Review Commission report, China initiated a disinformation campaign after the India-Pakistan border conflict in May. The campaign allegedly involved using fake social media accounts and AI-generated images of destroyed Rafale aircraft to undermine the French jet's sales and promote China's own J-35 fighters. The report suggests this effort led Indonesia to pause a Rafale purchase.",
-        "statistics": "In June 2025, China reportedly offered Pakistan a defence package including 40 J-35 fifth-generation fighter jets, KJ-500 aircraft, and ballistic missile defence systems.",
-        "stance": "The article reports on the findings of a US government commission's report, presenting the information as allegations against China.",
-        "bias_indicators": "The article is based on a US government report critical of China and is published by an Indian news outlet, which may influence the framing of the issue. However, it attributes the claims to the report, maintaining a degree of journalistic distance."
+        "narrative_summary": "Gold prices in Chennai experienced a slight decline, influenced by a strengthening Indian rupee against the US dollar and subdued global market cues. The appreciation of the rupee lowers the import cost of gold, which is traded in US dollars. Despite this dip, retail demand remains stable, supported by long-term investors and jewellers preparing for the festive season. The article notes that global economic indicators and geopolitical uncertainty continue to make gold a safe-haven asset for investors.",
+        "statistics": "As of Tuesday, the price of 24-karat gold in Chennai stood at Rs 12,273 per gram, while 22-karat gold was priced at Rs 11,250 per gram.",
+        "stance": "Neutral",
+        "bias_indicators": "The article provides a factual report on gold price movements, attributing them to specific economic factors like currency exchange rates and global market trends. It does not use emotive language or favor any particular viewpoint, maintaining an informative tone."
       },
       {
-        "url": "https://www.reuters.com/world/china/china-ran-campaign-discredit-french-rafale-fighter-after-india-pakistan-conflict-2025-11-20/",
+        "url": "https://timesofindia.indiatimes.com/business/gold-rate-today/gold-prices-plunge-rs-1000-to-rs-101520-per-10-grams-whats-driving-yellow-metal-rates-down/articleshow/123255847.cms",
+        "source_name": "Times of India",
+        "publish_date": "12-08-2025",
+        "source_type": "news",
+        "title": "Gold rate today: Gold prices plunge Rs 1,000 to Rs 1,01,520 per 10 grams; what’s driving yellow metal rates down?",
+        "source_country": "India",
+        "source_class": "mainstream",
+        "key_claims": [
+          {
+            "text": "Gold prices dipped after US President Donald Trump clarified on social media that there would be no tariffs on gold imports.",
+            "modality": "Causal",
+            "blame_target": "US President Donald Trump's clarification on tariffs.",
+            "evidence": "The article quotes Abans Financial Services CEO Chintan Mehta, who directly attributes the price dip to Trump's announcement easing trade-related concerns."
+          }
+        ],
+        "narrative_summary": "Gold prices in Delhi experienced a significant drop of Rs 1,000 per 10 grams, mirroring international trends. This decline is primarily attributed to President Trump's clarification that gold imports would not be subject to tariffs, which eased trade-related fears. A strengthening Indian rupee also contributed to the price fall. Silver prices also saw a considerable decrease. Market experts are now awaiting US macroeconomic data for future price direction.",
+        "statistics": "Gold prices in Delhi dropped by Rs 1,000 to Rs 1,01,520 per 10 grams. Silver prices fell by Rs 2,000 to Rs 1,12,000 per kilogram. The rupee strengthened by 10 paise against the US Dollar, reaching 87.65. In international markets, spot gold traded 0.13% higher at $3,347.18 per ounce, and spot silver increased by nearly 1% to USD 37.90 per ounce.",
+        "stance": "Neutral/Informational",
+        "bias_indicators": "The article presents a factual report on market movements, citing multiple expert opinions and data points without apparent emotional or one-sided language."
+      },
+      {
+        "url": "https://www.livemint.com/market/commodities/gold-price-today-rates-at-fresh-record-high-on-mcx-on-spot-demand-rate-cut-hopes-what-should-investors-do-silver-11759203196265.html",
+        "source_name": "Live Mint",
+        "publish_date": "30-09-2025",
+        "source_type": "news",
+        "title": "Gold, silver decline on profit booking after hitting record highs on MCX; what should investors do?",
+        "source_country": "India",
+        "source_class": "mainstream",
+        "key_claims": [
+          {
+            "text": "Precious metals prices climbed to a record high, driven by safe-haven demand amid concerns over a potential US government shutdown and expectations of further Federal Reserve rate cuts.",
+            "modality": "The claims are presented as market analysis and observations, supported by quotes from commodity market analysts.",
+            "blame_target": "The article attributes the price decline to 'profit booking' by investors. The price surge is linked to external factors like US Federal Reserve policy, potential US government shutdowns, and US tariff policies.",
+            "evidence": "Evidence includes specific price points reached on the MCX for gold and silver, percentage declines, and a reference to the CME Group's FedWatch tool indicating an 89% market expectation for a Fed rate cut."
+          }
+        ],
+        "narrative_summary": "Gold and silver prices experienced a decline due to profit booking after reaching new record highs on the MCX. The initial surge was attributed to strong spot demand, expectations of a US Fed rate cut, and geopolitical uncertainties. The article notes that factors like a potential US government shutdown and US tariff policies are also supporting gold prices. It concludes with analysts' advice for investors, suggesting volatility will continue but recommending buying on dips.",
+        "statistics": "MCX Gold December futures hit a record high of ₹1,17,788 per 10 grams, then traded 0.52% down at ₹1,15,740. MCX Silver December futures hit a record high of ₹1,44,330 per kg, then traded 1.76% down at ₹1,40,578 per kg. The market is pricing in an 89% chance of a 25-basis-point Fed rate cut.",
+        "stance": "Neutral and informative, reporting on market movements and providing expert analysis for investors.",
+        "bias_indicators": "The article maintains a low bias by quoting multiple financial analysts to offer a range of perspectives and includes a disclaimer that the content is for educational purposes."
+      },
+      {
+        "url": "https://economictimes.indiatimes.com/markets/commodities/gold-prices-decline-by-rs-1300/10-g-on-dollar-strength-silver-down-by-rs-850/kg-whats-ahead/articleshow/125531584.cms",
+        "source_name": "The Economic Times",
+        "publish_date": "24-11-2025",
+        "source_type": "web",
+        "title": "Gold prices decline by Rs 1,300/10 g on dollar strength, silver down by Rs 850/kg. What’s ahead?",
+        "source_country": "India",
+        "source_class": "mainstream",
+        "key_claims": [
+          {
+            "text": "Gold and silver prices opened lower on Monday as a strong dollar weighed on sentiment.",
+            "modality": "Declarative",
+            "blame_target": "A strong US dollar",
+            "evidence": "The article cites that the U.S. dollar was hovering near a six-month peak, which typically makes gold more expensive for holders of other currencies. It also provides specific data on the price drop: Gold December futures at MCX were lower by Rs 1,309 or 1.05%."
+          }
+        ],
+        "narrative_summary": "Gold and silver prices declined on Monday, primarily due to the strengthening U.S. dollar, which reached a near six-month high. This trend was supported by fading expectations of an interest rate cut by the U.S. Federal Reserve in December, following stronger-than-expected U.S. job growth data. A stronger dollar makes gold more expensive for investors using other currencies, thus dampening demand and lowering prices.",
+        "statistics": "Gold December futures at MCX opened at Rs 1,22,882/10 grams, a decrease of Rs 1,309 or 1.05%. Silver December contracts were down by Rs 850 or 0.55% to Rs 1,53,300/kg. Spot gold fell 0.3% to $4,051.48 per ounce. The US Dollar Index (DXY) was near the 100.20 mark, up 0.03%. September non-farm payrolls rose by 119,000. The probability of a December rate cut dropped to 69% from 74%.",
+        "stance": "Neutral and informative, reporting on market movements and their causes.",
+        "bias_indicators": "The article presents a factual report on commodity price changes, attributing them to specific economic indicators like the dollar's strength and Federal Reserve policy expectations. It includes a disclaimer that expert opinions are their own, indicating an effort to maintain neutrality."
+      },
+      {
+        "url": "https://markets.chroniclejournal.com/chroniclejournal/article/marketminute-2025-11-24-rupee-rebound-and-global-cues-weigh-on-gold-sparking-market-volatility",
         "source_name": null,
         "publish_date": null,
         "source_type": null,
-        "title": "China ran campaign to discredit French Rafale fighter after India-Pakistan conflict, US commission says",
+        "title": "Rupee Rebound and Global Cues Weigh on Gold, Sparking Market Volatility",
         "source_country": null,
         "source_class": null,
         "key_claims": [
           {
-            "text": "China used fake social media accounts to share AI-generated images as well as video game images of supposed debris of aircraft that Chinese weaponry had destroyed.",
-            "modality": "Asserted as a finding",
-            "blame_target": "China",
-            "evidence": "A report by the U.S.-China Economic and Security Review Commission to the U.S. Congress."
+            "text": "The current downturn in India's gold prices is not an isolated event but rather the culmination of intricate global and domestic financial dynamics. At its core, the precious metal's valuation is currently being dictated by the US Federal Reserve's evolving monetary policy expectations and the robust performance of the Indian Rupee (INR) against the US Dollar (USD).",
+            "modality": "Factual assertion",
+            "blame_target": "The US Federal Reserve's monetary policy and the strengthening of the Indian Rupee against the US Dollar.",
+            "evidence": "The article cites the rupee's sharp rebound by 46-50 paise to 89.16-89.20 against the dollar, the inverse relationship between gold and interest rates influenced by the US Fed, and the direct impact of a stronger rupee on making imported gold cheaper in domestic terms."
           }
         ],
-        "narrative_summary": "A bipartisan U.S. commission reported that China conducted a disinformation campaign to damage the reputation and sales of the French Rafale fighter jet. This followed an incident where Pakistan's Chinese-made J-10 fighter shot down an Indian Rafale. The campaign allegedly involved using fake social media accounts to circulate AI-generated and video game images of supposed aircraft debris. The Chinese foreign ministry has rejected the report as false information from a biased source.",
-        "statistics": "Ukraine signed a letter of intent for up to 100 Rafale fighters. More than half a dozen countries have purchased the Rafale. At least one Indian Rafale was reportedly shot down by a Pakistani J-10 fighter during a four-day conflict. A total of three Indian military jets were reportedly downed.",
-        "stance": "Neutral. The article reports on the U.S. commission's claims and includes a direct rebuttal from the Chinese foreign ministry, presenting both sides of the issue.",
-        "bias_indicators": "The article maintains a balanced perspective by attributing claims to their respective sources (the U.S. commission and the Chinese foreign ministry) without endorsing either viewpoint."
+        "narrative_summary": "The article discusses the decline in Indian gold prices as of November 24, 2025, attributing it to a strengthening Indian Rupee and global macroeconomic factors, particularly the US Federal Reserve's monetary policy. It analyzes the impact on various sectors, noting that importers and refiners benefit from a stronger rupee, while gold loan companies face increased risks. The piece highlights a broader trend of shifting from gold as a consumption item to an investment asset, evidenced by record inflows into Gold ETFs. The long-term outlook for gold is presented as bullish, despite short-term volatility, with predictions of significant price increases by 2030.",
+        "statistics": "On November 24, 2025, 24-carat gold in India traded around ₹123,700 to ₹125,130 per 10 grams. International spot gold hovered around $4,077-$4,080 per ounce, down from its October peak of $4,380. The Indian Rupee rebounded by 46-50 paise to settle at 89.16-89.20 against the US dollar. MCX Gold December futures were down by 1.21% or ₹1,501 to ₹1,22,652 per 10 grams. Gold ETFs saw record inflows of INR 276 billion (US$3.1 billion) in the first ten months of 2025. Projections suggest domestic gold prices could reach ₹1,40,000 to ₹2,25,000 per 10 grams by 2030.",
+        "stance": "Neutral/Analytical",
+        "bias_indicators": "The article provides a financial market analysis, focusing on data and market dynamics. It presents a balanced view by discussing both the causes of the current price drop and the factors supporting a long-term bullish outlook for gold, without promoting a specific investment action."
       },
       {
-        "url": "https://timesofindia.indiatimes.com/world/us/fake-debris-images-us-flags-chinas-disinformation-campaign-against-rafale-after-operation-sindoor-what-it-says/articleshow/125432257.cms",
-        "source_name": "Times of India",
-        "publish_date": "19-11-2025",
+        "url": "https://www.gold.org/goldhub/gold-focus/2025/11/india-gold-market-update-seasonal-strength",
+        "source_name": "World Gold Council",
+        "publish_date": "21-11-2025",
         "source_type": "web",
-        "title": "Fake debris images? US flags China's 'disinformation campaign' against Rafale after Operation Sindoor — what it says",
+        "title": "India gold market update: Seasonal strength",
         "source_country": "India",
         "source_class": "mainstream",
         "key_claims": [
           {
-            "text": "Following the May 2025 India-Pakistan border crisis, China initiated a disinformation campaign to hinder sales of French Rafale aircraft in favor of its own J-35s, using fake social media accounts to propagate AI images of supposed “debris” from the planes that China’s weaponry destroyed.",
-            "modality": "Allegation",
-            "blame_target": "China",
-            "evidence": "The article cites a US annual report from the US-China Economic and Security Review Commission, which in turn cites French intelligence."
+            "text": "The higher domestic gains are attributed to the 3.3% depreciation of the Indian rupee.",
+            "modality": "Attribution",
+            "blame_target": "Indian rupee depreciation",
+            "evidence": "The article states that domestic gold prices have recorded 63% year-to-date growth, which is stronger than international returns, and attributes this difference to the currency's 3.3% depreciation."
           }
         ],
-        "narrative_summary": "A US report from the US-China Economic and Security Review Commission alleges that China launched a disinformation campaign following 'Operation Sindoor' to discredit French Rafale jets and promote its own J-35 fighters. The campaign reportedly involved using AI-generated images of fake debris from destroyed planes. The report also claims China encouraged Pakistan to down Indian Rafales and used this as a sales tactic, which allegedly led Indonesia to halt its purchase of Rafale jets.",
-        "statistics": "Only three jets flown by India’s military were reportedly downed, and not all may have been Rafales. China planned to sell 30 J-35A stealth fighters to Pakistan at roughly half price.",
-        "stance": "The article reports on a US government advisory body's report that is critical of China's actions, presenting the allegations as the central focus.",
-        "bias_indicators": "The article is from an Indian publication and focuses on a US report that aligns with Indian geopolitical concerns regarding China and Pakistan. The framing highlights China's alleged efforts to undermine India's military hardware (Rafale jets)."
+        "narrative_summary": "The article reports that while international gold prices have softened from their peak, they remain firm. Domestic gold prices in India have seen stronger returns due to the depreciation of the rupee. Festive demand in October was strong, particularly for investment products like bars, coins, and ETFs, leading to a surge in gold imports. Although demand has tapered post-festivities, the upcoming wedding season is expected to support jewellery sales.",
+        "statistics": "International gold price ended October at US$4,011.5/oz, a 58% y-t-d gain. Domestic gold prices recorded 63% y-t-d growth, attributed to a 3.3% depreciation of the Indian rupee. Gold imports in October reached a record US$14.7bn (137-142t). Gold ETF net inflows for October were INR77bn (US$876mn), with total holdings rising to 83.5t.",
+        "stance": "Analytical and cautiously optimistic regarding the Indian gold market, highlighting strong investment demand and a positive outlook for jewellery sales due to the upcoming wedding season.",
+        "bias_indicators": "The article is published by the World Gold Council, a market development organization for the gold industry. This may lead to a pro-gold perspective, emphasizing positive data such as record imports and strong ETF inflows."
       },
       {
-        "url": "https://www.youtube.com/watch?v=vlN_eu1jkX0",
-        "source_name": "NewsX Live",
-        "publish_date": "18-11-2025",
+        "url": "https://www.thehansindia.com/business/hans-invest/the-falling-rupee-and-the-surge-in-gold-imports-1025192#0",
+        "source_name": "Hans India",
+        "publish_date": "21-11-2025",
         "source_type": "web",
-        "title": "China Exposed: US Report Exposes China’s Fake Rafale Debris Plot During India-Pakistan Conflict",
+        "title": "The Falling Rupee and the Surge in Gold Imports",
         "source_country": "India",
         "source_class": "mainstream",
         "key_claims": [
           {
-            "text": "China launched an AI-backed disinformation campaign, using fake social media accounts and fabricated AI images of 'Rafale debris' to undermine India and sabotage French Rafale sales.",
-            "modality": "Factual claim based on a cited report.",
-            "blame_target": "China",
-            "evidence": "A new report by the US-China Economic and Security Review Commission."
+            "text": "The Indian rupee recently reached an alarming low of 88.8 against the US dollar, triggered by an unprecedented surge in gold imports.",
+            "modality": "Factual reporting of recent economic events.",
+            "blame_target": "The surge in gold and silver imports, driven by festive demand, and outflows from Foreign Institutional Investors (FIIs).",
+            "evidence": "Gold imports soared by 200% in October 2025, contributing to a record trade deficit of $41.68 billion. The rupee depreciated by 0.7% in a single trading session."
           }
         ],
-        "narrative_summary": "A report by the US-China Economic and Security Review Commission reveals that China initiated an AI-backed disinformation campaign during the India-Pakistan conflict in May. The report states that Beijing utilized fake social media accounts and fabricated AI images of \"Rafale debris\" to undermine India and sabotage the sales of French Rafale jets, aiming to promote its own J-35 fighter jets.",
-        "statistics": "2,002 views, 21 likes as of November 18, 2025.",
-        "stance": "The article is critical of China, presenting its actions as a deliberate disinformation campaign intended for economic and geopolitical advantage. It supports the findings of the US report and the Indian government's position that no Rafale jets were lost.",
-        "bias_indicators": "The title \"China Exposed\" and the framing of the story indicate a strong bias against China. The reporting treats the US commission's findings as conclusive evidence of Chinese misconduct, aligning with an Indian nationalist perspective."
+        "narrative_summary": "The article reports on the Indian rupee's depreciation to a record low of 88.8 against the US dollar. This decline is attributed to a significant surge in gold and silver imports, which has widened India's trade deficit to a record high. The increased demand for precious metals is linked to the festive season, particularly Diwali. Other contributing factors include outflows from Foreign Institutional Investors (FIIs) and losses in the equity markets. The Reserve Bank of India (RBI) is reportedly intervening to stabilize the currency.",
+        "statistics": "The Indian rupee hit a record low of 88.8 against the US dollar, a 0.7% depreciation in a single session. In October 2025, gold imports surged by 200% year-on-year, reaching INR 1240.39 billion, contributing to a record trade deficit of $41.68 billion. Silver imports also rose by 530%. Foreign Institutional Investor (FII) outflows totaled ₹240.10 crore.",
+        "stance": "The article adopts a neutral, informational stance, explaining the cause-and-effect relationship between rising precious metal imports, the widening trade deficit, and the depreciation of the Indian rupee.",
+        "bias_indicators": "The article uses strong, descriptive adjectives such as 'alarming low', 'unprecedented surge', and 'staggering 200%' to emphasize the severity of the economic situation, indicating a slightly negative tone regarding the rupee's performance and the trade deficit."
       }
     ]
   }
